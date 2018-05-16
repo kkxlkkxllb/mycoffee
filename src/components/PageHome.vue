@@ -134,7 +134,6 @@
         </div>
         <div class='btn' @click='skipCafe'>点击领取</div>
       </x-dialog>
-      <div class="fake" v-if='showCouponFirst' @click='recevieFirstFree'></div>
     </div>
     <!--首页赠送者进入可以看到好友领取了礼物后的弹窗消息-->
     <div v-transfer-dom>
@@ -146,10 +145,10 @@
         </div>
         <div class='btn' @click='iAlreadyrRead'>我已经阅读了</div>
       </x-dialog>
-      <div class="fake" v-if='showCouponFirst' @click='recevieFirstFree'></div>
     </div>
     <!--新人领取咖啡-->
     <div v-transfer-dom>
+      <div class="fake" v-if='showCouponFirst' @click='recevieFirstFree'></div>
       <x-dialog
         v-model="showCouponFirst"
         class='coupon-index-modal'>
