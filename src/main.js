@@ -21,7 +21,7 @@ import AllCoupon from './components/PageAllCoupon'
 import GetCoupon from './components/PageGetCoupon'
 
 Vue.http.defaults.withCredentials = true;
-//isDev开发模式下为true, 要部署了就改为false
+// isDev开发模式下为true, 要部署了就改为false
 window.isDev = true
 if (isDev) {
   Vue.http.defaults.baseURL = '/api'

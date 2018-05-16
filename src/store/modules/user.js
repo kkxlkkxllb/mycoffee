@@ -7,10 +7,10 @@ const state = {
   userInfo: null,
   hasGetFirst: false
 }
-//isDev开发模式下为true, 要部署了就改为false
-//const isDev = false
+// isDev开发模式下为true, 要部署了就改为false
+const isDev = true
 const getters = {
-  userInfo: state => isDev ? {id:6} : state.userInfo,
+  userInfo: state => isDev ? {id: 6} : state.userInfo,
   hasGetFirst: state => state.hasGetFirst
 }
 

@@ -138,12 +138,11 @@
     </div>
     <!--首页赠送者进入可以看到好友领取了礼物后的弹窗消息-->
     <div v-transfer-dom>
-      <div class="fake" v-if='showFriendGiveMsg' @click='recevieFriendCoffeeMsg'></div>
       <x-dialog
         v-model="showFriendGiveMsg"
         class='friend-co-modal'>
-        <div class="body" v-if='showFriendGiveObj'>
-          您的好友 {{showFriendGiveObj.nick}} 已经领取了你赠送的 {{showFriendGiveObj.prod}}
+        <div class="body" v-if='noticeMsgObj'>
+          {{noticeMsgObj.text}}
         </div>
         <div class='btn' @click='iAlreadyrRead'>我已经阅读了</div>
       </x-dialog>
@@ -288,7 +287,8 @@ export default {
       showFriendGive: false,
       showFriendGiveMsg: false,
       showFriendGiveObj: null,
-      showCouponFirst: false
+      showCouponFirst: false,
+      noticeMsgObj: null
     }
   },
   created () {
@@ -330,6 +330,7 @@ export default {
     if (!this.hasUserFirst) {
       this.showCouponFirst = true
     }
+    this.checkNoticeMsg()
   },
   watch: {
     totalSelectCount: function (newV, oldV) {
@@ -476,33 +477,31 @@ export default {
         }
       }).then(({data}) => {
         this.showFriendGive = false
-        location.href = '/'
+        // location.href = '/'
+        this.skipCafe()
       })
     },
-    //点击领取好友的券跳转到我的咖啡库
-    skipCafe(){
+    // 点击领取好友的券跳转到我的咖啡库
+    skipCafe () {
       this.$router.replace({path: 'lib'})
     },
-    //首页赠送者进入可以看到好友领取了礼物后的弹窗消息
-    recevieFriendCoffeeMsg(){
-      const STATIC_URL = 'http://www.zhongkakeji.com/'
-      this.$http.get('accounts/notice/list/', {
+    // 首页赠送者进入可以看到好友领取了礼物后的弹窗消息
+    checkNoticeMsg () {
+      this.$http.get('/accounts/notice/list/', {
         params: {
           user_id: this.currentUser.id
         }
       }).then(({data}) => {
         if (data.ok) {
-          this.showFriendGiveObj = data.data.filter(obj => obj.is_read === false)[0]
-          this.sildeList = data.data.map(i => {
-            return {
-              is_read: 'true'
-            }
-          }).sort((a, b) => a.order > b.order)
+          this.noticeMsgObj = data.data.filter(obj => obj.is_read === false)[0]
+          if (this.noticeMsgObj) {
+            this.showFriendGiveMsg = true
+          }
         }
       })
     },
-      iAlreadyrRead(){
-
+    iAlreadyrRead () {
+      
     },
 
     recevieFirstFree () {
