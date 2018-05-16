@@ -501,7 +501,16 @@ export default {
       })
     },
     iAlreadyrRead () {
-      
+      this.$http.get('/accounts/notice/update/', {
+        params: {
+          notice_id: this.noticeMsgObj.notice_id
+        }
+      }).then(({data}) => {
+        if (data.ok) {
+          this.showFriendGiveMsg = false
+        }
+      })
+
     },
 
     recevieFirstFree () {
